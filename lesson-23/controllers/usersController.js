@@ -31,7 +31,28 @@ module.exports = {
    * Listing 23.3 (p. 336)
    * userController.js로의 로그인과 인증 액션 추가
    */
+  res.render("users/login"), (
+    page: "login",
+    title: "Login Page"
+  ),
 
+  authenticate: (req, res, next) => {
+    User.findOne({email: req,body,email})
+    .then(user =>{
+      if (user) {
+       user.passwordCompare(req,body,password)
+       .then(pWMatch => {
+         if (pWMatch) {
+          res.locals.redirect = '/users/$(user._id)';
+          res.locals.user = user;
+         }
+       })
+      } else {
+        res.locals.redirect = "/users/login";
+        req.flash("")
+      }
+    })
+  }
   /**
    * @TODO: authenticate 액션
    */

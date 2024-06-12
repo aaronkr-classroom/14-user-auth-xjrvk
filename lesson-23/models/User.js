@@ -14,7 +14,7 @@
 const mongoose = require("mongoose"),
   { Schema } = mongoose,
   bcrypt = require("bcrypt"), // Lesson 23 - bcrypt 라이브러리를 요청
-  Subscriber = require("../models/Subscriber"), // 구독자 모델 요청
+  Subscriber = require("./Subscriber"), // 구독자 모델 요청
   userSchema = Schema(
     // 사용자 스키마 생성
     {
@@ -93,10 +93,11 @@ userSchema.pre("save", function (next) {
   /**
    * @TODO: bcrypt 해싱
    *
-   * Listing 23.4 (p. 340)
-   * user.js에서의 pre 훅 해싱
+   * Listing 23.4 (p. 340) 
    */
+  bcrypt
 });
+
 
 userSchema.pre("save", function (next) {
   let user = this; // 콜백에서 함수 키워드 사용
@@ -128,7 +129,10 @@ userSchema.pre("save", function (next) {
  * Listing 23.4 (p. 340)
  * user.js에서의 pre 훅 해싱
  */
-
+userSchema.methods.passwordCompare = (inPW) => (
+  let user = this;
+  return bcrypt.compare
+)
 module.exports = mongoose.model("User", userSchema);
 
 /**
